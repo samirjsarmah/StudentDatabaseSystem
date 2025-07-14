@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>  
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      max-width: 900px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
       background-color: #f5f5f5;
@@ -49,7 +49,6 @@
 
     .form-group {
       display: flex;
-      flex-wrap: wrap;
       gap: 20px;
       align-items: flex-end;
       margin-bottom: 30px;
@@ -57,19 +56,30 @@
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      overflow-x: auto;
     }
 
     .form-control {
       display: flex;
       flex-direction: column;
       flex: 1;
-      min-width: 150px;
+      min-width: 200px;
+    }
+
+    .form-control:last-child {
+      flex: none;
     }
 
     label {
       font-weight: 600;
-      margin-bottom: 6px;
-      color: #333;
+      margin-bottom: 4px;
+    }
+
+    .hint {
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 8px;
+      white-space: nowrap;
     }
 
     input[type="text"],
@@ -164,23 +174,27 @@
   <!-- Input Fields -->
   <div class="form-group">
     <div class="form-control">
-      <label for="rollno">Roll No (1000–9999)</label>
-      <input type="number" id="rollno" min="1000" max="9999" required>
+      <label for="rollno">Roll No</label>
+      <span class="hint">1000–9999 only</span>
+      <input type="number" id="rollno" required>
     </div>
     <div class="form-control">
       <label for="name">Name</label>
-      <input type="text" id="name" oninput="this.value=this.value.toUpperCase()" required>
+      <span class="hint">Letters & spaces (no numbers)</span>
+      <input type="text" id="name" required>
     </div>
     <div class="form-control">
-      <label for="semester">Semester (1–8)</label>
-      <input type="number" id="semester" min="1" max="8" required>
+      <label for="semester">Semester</label>
+      <span class="hint">1–8 only</span>
+      <input type="number" id="semester" required>
     </div>
     <div class="form-control">
-      <label for="result">Result (Pass/Fail)</label>
+      <label for="result">Result</label>
+      <span class="hint">Pass or Fail</span>
       <input type="text" id="result" required>
     </div>
-    <div class="form-control" style="margin-top: 25px;">
-      <button onclick="addRow()">Add</button>
+    <div class="form-control" style="width: auto; margin: 0;">
+      <button type="button" onclick="addRow()">Add</button>
     </div>
   </div>
 
@@ -205,7 +219,7 @@
   </form>
 
   <marquee behavior="scroll" direction="left">
-    Once the data is FINAL SUBMIT, it cannot be changed. Please double-check your entries before submission.
+    Once the data is FINAL SUBMIT, it cannot be changed. Please double-check your entries. Format instructions are provided near each field.
   </marquee>
 
   <script>
@@ -217,11 +231,6 @@
       const name = document.getElementById('name').value.trim();
       const sem = document.getElementById('semester').value.trim();
       const result = document.getElementById('result').value.trim();
-
-      if (!roll || !name || !sem || !result) return alert("All fields required!");
-      if (roll < 1000 || roll > 9999) return alert("Roll No must be 1000-9999!");
-      if (/\d/.test(name)) return alert("Name cannot contain numbers!");
-      if (sem < 1 || sem > 8) return alert("Semester must be between 1-8");
 
       const student = { roll, name, sem, result };
       studentList.push(student);
@@ -286,18 +295,6 @@
         alert("Please click the browser's ❌ button to close this tab.");
       }
     }
-
-    // Prevent numbers in name field 
-    const nameInput = document.getElementById('name');
-    nameInput.addEventListener('keypress', function (e) {
-      if (e.key >= '0' && e.key <= '9') {
-        e.preventDefault();
-      }
-    });
-
-    nameInput.addEventListener('input', function (e) {
-      this.value = this.value.replace(/[0-9]/g, '').toUpperCase();
-    });
   </script>
 
 </body>
